@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+<script type="module" src="./cally.esm.js"></script>
+
+<!-- Implementación de la librería -->
+<section class="calendar">
+    <calendar-date>
+        <calendar-month></calendar-month>
+    </calendar-date>
+    <p>La fecha seleccionada es: <span></span></p>
+</section>
+
+<style>
+    /* Opcional */
+    .calendar {
+        display: grid;
+        place-content: center;
+        min-height: 100vh;
+    }
+</style>
+
+<script>
+    // Buscamos los elementos
+    const calendar = document.querySelector("calendar-date");
+
+    const span = document.querySelector("span");
+
+    calendar.addEventListener("change", (e) => {
+        span.innerText = e.target.value;
+    });
+</script>
+

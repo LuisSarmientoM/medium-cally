@@ -1,0 +1,71 @@
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+/>
+<script type="module" src="./cally.esm.js"></script>
+
+<!-- Implementación de la librería -->
+<section class="calendar">
+    <calendar-date>
+        <calendar-month></calendar-month>
+    </calendar-date>
+    <p>La fecha seleccionada es: <span></span></p>
+</section>
+
+<style>
+    /* Opcional */
+    .calendar {
+        display: grid;
+        place-content: center;
+        min-height: 100dvh;
+    }
+    calendar-month {
+        --color-accent: #ffb239;
+        --color-text-on-accent: #1c4728;
+    }
+    calendar-month::part(button) {
+        border-radius: 15px;
+        border: none;
+        padding: 5px;
+    }
+    /* calendar-month::part(button):hover and not selected */ 
+    calendar-month::part(button):hover {
+        background-color: #1c4728;
+    }
+    calendar-month::part(selected):hover {
+        background-color: #ff9f05;
+    }
+
+    calendar-month::part(disallowed), calendar-month::part(button):disabled {
+        opacity: 0.2;
+    }
+    /* Disabled days */
+    /* 
+        ::part(heading) {
+            font-size: 24px;
+        } */
+</style>
+
+<script type="module">
+    // Buscamos los elementos
+    const calendar = document.querySelector("calendar-date");
+    const span = document.querySelector("span");
+    calendar.addEventListener("change", (e) => {
+        span.innerText = e.target.value;
+    });
+
+    // deshabilitar los fines de semana
+    calendar.isDateDisallowed = (date) => {
+        return date.getDay() === 0 || date.getDay() === 6;
+    };
+    calendar.min = formattedDate(new Date());
+
+    // Máximo 6 meses a partir de hoy
+    const max = new Date();
+    max.setMonth(max.getMonth() + 3);
+    calendar.max = formattedDate(max);
+
+    function formattedDate(date) {
+        return date.toISOString().split("T")[0];
+    }
+</script>
